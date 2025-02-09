@@ -5,7 +5,6 @@ import com.inditex.pricing.infrastructure.persistence.PricePK;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.data.repository.query.Param;
-
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -19,7 +18,4 @@ public interface PriceJpaRepository extends JpaRepository<PriceEntity, PricePK> 
     List<PriceEntity> findApplicablePrices(@Param("productId") Integer productId,
                                            @Param("brandId") Integer brandId,
                                            @Param("applicationDate") LocalDateTime applicationDate);
-
-    Optional<PriceEntity> findByIdBrandIdAndIdProductIdAndIdPriceList(
-            Integer brandId, Integer productId, Integer priceList);
 }
