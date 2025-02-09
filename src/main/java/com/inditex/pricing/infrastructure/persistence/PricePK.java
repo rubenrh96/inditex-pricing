@@ -1,12 +1,10 @@
 package com.inditex.pricing.infrastructure.persistence;
 
 import jakarta.persistence.Embeddable;
-import lombok.*;
 
 import java.io.Serializable;
 
 @Embeddable
-@NoArgsConstructor
 public class PricePK implements Serializable {
     private Integer brandId;
     private Integer productId;
@@ -16,6 +14,9 @@ public class PricePK implements Serializable {
         this.brandId = brandId;
         this.productId = productId;
         this.priceList = priceList;
+    }
+
+    public PricePK() {
     }
 
     public Integer getBrandId() {

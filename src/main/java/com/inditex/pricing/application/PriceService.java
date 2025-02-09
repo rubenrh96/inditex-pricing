@@ -8,6 +8,8 @@ import com.inditex.pricing.infrastructure.repository.PriceJpaRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -21,9 +23,16 @@ public class PriceService {
         this.priceMapper = priceMapper;
     }
 
+    public Price getApplicablePrice(Integer productId, Integer brandId, LocalDateTime applicationDate) {
+        var prices = repository.findApplicablePrices(productId, brandId, applicationDate);
+        var applicableEntity = prices.stream()
+                .max(Comparator.comparingInt(PriceEntity::getPriority));
+        return applicableEntity.map(priceMapper::toDomain).orElse(null);
+    }
+
     public Price getPriceByCompositeId(Integer brandId, Integer productId, Integer priceList) {
-        PricePK pk = new PricePK(brandId, productId, priceList);
-        Optional<PriceEntity> optionalEntity = repository.findById(pk);
+        var pk = new PricePK(brandId, productId, priceList);
+        var optionalEntity = repository.findById(pk);
         return optionalEntity.map(priceMapper::toDomain).orElse(null);
     }
 

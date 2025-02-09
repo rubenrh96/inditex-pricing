@@ -1,5 +1,7 @@
 package com.inditex.pricing.infrastructure.mapper;
 
+import com.inditex.pricing.infrastructure.dto.PriceResponse;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import com.inditex.pricing.domain.Price;
 import com.inditex.pricing.infrastructure.persistence.PriceEntity;
@@ -11,7 +13,7 @@ public class PriceMapperManual {
         if (entity == null) {
             return null;
         }
-        Price price = new Price();
+        var price = new Price();
         if (entity.getId() != null) {
             price.setBrandId(entity.getId().getBrandId());
             price.setProductId(entity.getId().getProductId());
@@ -23,5 +25,19 @@ public class PriceMapperManual {
         price.setPrice(entity.getPrice());
         price.setCurrency(entity.getCurrency());
         return price;
+    }
+
+    public PriceResponse priceResponseToPrice(Price price) {
+        if (price == null) {
+            return null;
+        }
+        var response = new PriceResponse();
+        response.setProductId(price.getProductId());
+        response.setBrandId(price.getBrandId());
+        response.setPriceList(price.getPriceList());
+        response.setStartDate(price.getStartDate());
+        response.setEndDate(price.getEndDate());
+        response.setPrice(price.getPrice());
+        return response;
     }
 }
